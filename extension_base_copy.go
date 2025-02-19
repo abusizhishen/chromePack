@@ -17,14 +17,16 @@ func main() {
 	newFolderName := os.Args[1]
 	filesToRemove := []string{".git", ".idea"}
 
-	sourceDir := path.Join(getHomeDir(), "WebstormProjects", "chrome_ext_base")
+	baseDir := path.Join(getHomeDir(), "WebstormProjects")
+	sourceDir := path.Join(baseDir, "chrome_ext_base")
 	currentDir, err := os.Getwd()
 	if err != nil {
 		fmt.Printf("Error getting current directory: %v\n", err)
 		return
 	}
+	//fmt.Printf("currentDir: %s, newFolderName:%s\n", currentDir, newFolderName)
 
-	newFolderPath := filepath.Join(filepath.Dir(currentDir), newFolderName)
+	newFolderPath := filepath.Join(currentDir, newFolderName)
 	fmt.Printf("Copying folder to: %s\n", newFolderPath)
 
 	err = copyDir(sourceDir, newFolderPath)
@@ -33,7 +35,7 @@ func main() {
 		return
 	}
 
-	fmt.Println("Removing specified files...")
+	//fmt.Println("Removing specified files...")
 	for _, file := range filesToRemove {
 		filePath := filepath.Join(newFolderPath, file)
 		if err := os.RemoveAll(filePath); err != nil {
@@ -51,5 +53,5 @@ func main() {
 		return
 	}
 
-	fmt.Println("Process completed successfully.")
+	//fmt.Println("Process completed successfully.")
 }
